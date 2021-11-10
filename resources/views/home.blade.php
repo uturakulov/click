@@ -9,5 +9,6 @@
         @endif
         <h1>{{ $user->name }}</h1>
         <h3>{{ $user->email }}</h3>
+        <a href="{{ route('change-view') }}">Change password</a>
     </div>
 @endsection

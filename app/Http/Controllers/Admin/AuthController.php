@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -34,5 +37,27 @@ class AuthController extends Controller
         auth()->logout();
 
         return redirect()->route('login');
+    }
+
+    public function changePass()
+    {
+        return view('change');
+    }
+
+    public function storePass(Request $request)
+    {
+        $hashedPass = auth()->guard('admin')->user()->password;
+
+        $id = auth()->guard('admin')->user()->id;
+
+        if ($request->newpass == $request->confirmpass) {
+            if (Hash::check($request->currentpass, $hashedPass)) {
+                $user = Admin::findOrFail($id);
+                $user->password = Hash::make($request->newpass);
+                $user->save();
+
+                return redirect()->route('admin-home')->with('message', 'Password changed successfully!');
+            }
+        }
     }
 }

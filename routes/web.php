@@ -31,3 +31,5 @@ Route::resource('categories', CategoryController::class);
 Route::get('products/delete/{product}', [ProductController::class, 'destroy'])->name('admin-delete');
 Route::get('categories/delete/{category}', [CategoryController::class, 'destroy'])->name('admin-delete-category');
 Route::get('products-archive', [ProductController::class, 'archive'])->name('admin-archive');
+Route::get('change-password', [AuthController::class, 'changePass'])->name('change-view');
+Route::post('change-store', [AuthController::class, 'storePass'])->name('change-store');
